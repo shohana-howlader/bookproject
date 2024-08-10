@@ -1,0 +1,44 @@
+﻿@model IEnumerable<BookViewModel>
+@{
+    ViewData["Title"] = "BookShowcase";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Book Showcase</h2>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-img-top overflow-hidden" style="height: 200px;">
+                        <img src="@item.Book.PhotoUrl" class="img-fluid w-100 h-100 object-fit-cover" alt="Book Image" />
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-truncate">@item.Book.Title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">by @item.Book.Author</h6>
+                        <p class="card-text flex-grow-1">Avg. Rating: <strong>@item.AverageRating.ToString("0.0")</strong></p>
+                        <p class="card-text">Reviews: @item.ReviewCount</p>
+                        <p class="card-text">Published: @item.Book.PublishedDate.ToShortDateString()</p>
+                        <a href="@Url.Action("ReviewRating", "Books", new { bookId = item.Book.BookId })" class="btn btn-outline-primary mt-auto">View Reviews</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+    .object-fit-cover {
+        object-fit: cover;
+    }
+</style>
